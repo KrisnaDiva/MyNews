@@ -1,20 +1,30 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.krisna.diva.mynews"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.krisna.diva.mynews"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", "\"${project.findProperty("BASE_URL")}\"")
+        buildConfigField("String", "API_KEY", "\"${project.findProperty("API_KEY")}\"")
+
     }
 
     buildTypes {
@@ -45,4 +55,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // networking
+    implementation(libs.squareup.retrofit2)
+    implementation(libs.squareup.logging.interceptor)
+    implementation(libs.squareup.converter.gson)
+
+    // room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+    // glide
+    implementation(libs.bumptech.glide)
 }

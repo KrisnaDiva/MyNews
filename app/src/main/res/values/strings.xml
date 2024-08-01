@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyNews</string>
+    <string name="no_data">No data</string>
+    <string name="something_wrong">Something went wrong</string>
 </resources>

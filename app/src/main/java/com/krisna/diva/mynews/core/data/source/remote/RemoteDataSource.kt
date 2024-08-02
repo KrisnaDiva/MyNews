@@ -10,17 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 // Kelas ini bertanggung jawab untuk mengambil data dari API remote.
-class RemoteDataSource private constructor(private val apiService: ApiService) {
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-
-        fun getInstance(service: ApiService): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource(service)
-            }
-    }
-
+class RemoteDataSource (private val apiService: ApiService) {
     suspend fun getAllNews(): Flow<ApiResponse<List<NewsResponse>>> {
         return flow {
             try {

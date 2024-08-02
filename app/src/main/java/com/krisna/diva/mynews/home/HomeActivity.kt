@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.krisna.diva.mynews.R
 import com.krisna.diva.mynews.core.data.Resource
 import com.krisna.diva.mynews.core.ui.NewsAdapter
-import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityHomeBinding
 import com.krisna.diva.mynews.detail.DetailNewsActivity
 import com.krisna.diva.mynews.favorite.FavoriteActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +32,6 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
             startActivity(intent)
         }
-
-        val factory = ViewModelFactory.getInstance(this)
-        homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         homeViewModel.news.observe(this) { news ->
             if (news != null) {

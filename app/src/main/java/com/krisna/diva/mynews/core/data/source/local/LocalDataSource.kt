@@ -5,16 +5,7 @@ import com.krisna.diva.mynews.core.data.source.local.room.NewsDao
 import kotlinx.coroutines.flow.Flow
 
 //Kelas ini bertanggung jawab untuk mengelola data yang disimpan di database lokal.
-class LocalDataSource private constructor(private val newsDao: NewsDao) {
-
-    companion object {
-        private var instance: LocalDataSource? = null
-
-        fun getInstance(newsDao: NewsDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(newsDao)
-            }
-    }
+class LocalDataSource(private val newsDao: NewsDao) {
 
     fun getAllNews(): Flow<List<NewsEntity>> = newsDao.getAllNews()
 

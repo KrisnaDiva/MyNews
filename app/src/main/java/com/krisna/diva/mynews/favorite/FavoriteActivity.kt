@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.krisna.diva.mynews.core.ui.NewsAdapter
-import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityFavoriteBinding
 import com.krisna.diva.mynews.detail.DetailNewsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : AppCompatActivity() {
-    private lateinit var favoriteViewModel: FavoriteViewModel
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
     private lateinit var binding: ActivityFavoriteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +31,6 @@ class FavoriteActivity : AppCompatActivity() {
             intent.putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
             startActivity(intent)
         }
-
-        val factory = ViewModelFactory.getInstance(this)
-        favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
 
         favoriteViewModel.favoriteNews.observe(this) { dataNews ->
             newsAdapter.setData(dataNews)

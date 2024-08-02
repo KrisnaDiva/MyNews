@@ -11,25 +11,11 @@ import com.krisna.diva.mynews.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class NewsRepository private constructor(
+class NewsRepository (
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
 ) : INewsRepository {
-
-    companion object {
-        @Volatile
-        private var instance: NewsRepository? = null
-
-        fun getInstance(
-            remoteData: RemoteDataSource,
-            localData: LocalDataSource,
-            appExecutors: AppExecutors
-        ): NewsRepository =
-            instance ?: synchronized(this) {
-                instance ?: NewsRepository(remoteData, localData, appExecutors)
-            }
-    }
 
     override fun getAllNews(): Flow<Resource<List<News>>> =
         object : NetworkBoundResource<List<News>, List<NewsResponse>>() {

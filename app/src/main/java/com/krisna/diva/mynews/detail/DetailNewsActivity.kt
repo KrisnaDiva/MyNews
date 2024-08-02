@@ -14,8 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.krisna.diva.mynews.R
 import com.krisna.diva.mynews.core.domain.model.News
-import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityDetailNewsBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -24,7 +24,7 @@ class DetailNewsActivity : AppCompatActivity() {
         const val EXTRA_DATA = "extra_data"
     }
 
-    private lateinit var detailNewsViewModel: DetailNewsViewModel
+    private val detailNewsViewModel: DetailNewsViewModel by viewModel()
     private lateinit var binding: ActivityDetailNewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +36,6 @@ class DetailNewsActivity : AppCompatActivity() {
         binding.topAppBar.setNavigationOnClickListener {
             finish()
         }
-
-        val factory = ViewModelFactory.getInstance(this)
-        detailNewsViewModel = ViewModelProvider(this, factory)[DetailNewsViewModel::class.java]
 
         val detailNews = intent.getParcelableExtra<News>(EXTRA_DATA)
         showDetailNews(detailNews)
@@ -70,9 +67,19 @@ class DetailNewsActivity : AppCompatActivity() {
 
     private fun setStatusFavorite(statusFavorite: Boolean) {
         if (statusFavorite) {
-            binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite))
+            binding.fabFavorite.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_favorite
+                )
+            )
         } else {
-            binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite_border))
+            binding.fabFavorite.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_favorite_border
+                )
+            )
         }
     }
 

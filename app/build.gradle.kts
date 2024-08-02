@@ -67,4 +67,7 @@ dependencies {
 
     // glide
     implementation(libs.bumptech.glide)
+
+    // circle image view
+    implementation(libs.circleimageview)
 }

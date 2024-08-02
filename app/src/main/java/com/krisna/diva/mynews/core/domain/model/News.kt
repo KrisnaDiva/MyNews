@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class News(
     val newsId: String,
+    val source: String? = null,
     val author: String? = null,
     val title: String? = null,
     val description: String? = null,

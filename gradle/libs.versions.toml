@@ -19,6 +19,9 @@ ksp = "1.9.23-1.0.19"
 room = "2.6.1"
 #glide
 glide = "4.16.0"
+#circleimageview
+circleimageview = "3.1.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +41,8 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 #glide
 bumptech-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+#circleimageview
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

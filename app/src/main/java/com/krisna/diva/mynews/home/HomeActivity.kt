@@ -1,5 +1,6 @@
 package com.krisna.diva.mynews.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.krisna.diva.mynews.core.data.Resource
 import com.krisna.diva.mynews.core.ui.NewsAdapter
 import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityHomeBinding
+import com.krisna.diva.mynews.detail.DetailNewsActivity
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var homeViewModel: HomeViewModel
@@ -22,11 +24,11 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val newsAdapter = NewsAdapter()
-//        newsAdapter.onItemClick = { selectedData ->
-//            val intent = Intent(this, DetailNewsActivity::class.java)
-//            intent.putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
-//            startActivity(intent)
-//        }
+        newsAdapter.onItemClick = { selectedData ->
+            val intent = Intent(this, DetailNewsActivity::class.java)
+            intent.putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
+            startActivity(intent)
+        }
 
         val factory = ViewModelFactory.getInstance(this)
         homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]

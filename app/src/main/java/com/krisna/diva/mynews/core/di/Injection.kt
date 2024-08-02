@@ -10,7 +10,6 @@ import com.krisna.diva.mynews.core.domain.usecase.NewsInteractor
 import com.krisna.diva.mynews.core.domain.usecase.NewsUseCase
 import com.krisna.diva.mynews.core.utils.AppExecutors
 
-
 object Injection {
     fun provideRepository(context: Context): NewsRepository {
         val database = NewsDatabase.getInstance(context)

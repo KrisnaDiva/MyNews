@@ -1,7 +1,5 @@
 package com.krisna.diva.mynews.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.krisna.diva.mynews.core.data.source.local.LocalDataSource
 import com.krisna.diva.mynews.core.data.source.remote.RemoteDataSource
 import com.krisna.diva.mynews.core.data.source.remote.network.ApiResponse
@@ -10,6 +8,8 @@ import com.krisna.diva.mynews.core.domain.model.News
 import com.krisna.diva.mynews.core.domain.repository.INewsRepository
 import com.krisna.diva.mynews.core.utils.AppExecutors
 import com.krisna.diva.mynews.core.utils.DataMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class NewsRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -31,9 +31,9 @@ class NewsRepository private constructor(
             }
     }
 
-    override fun getAllNews(): LiveData<Resource<List<News>>> =
-        object : NetworkBoundResource<List<News>, List<NewsResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<News>> {
+    override fun getAllNews(): Flow<Resource<List<News>>> =
+        object : NetworkBoundResource<List<News>, List<NewsResponse>>() {
+            override fun loadFromDB(): Flow<List<News>> {
                 return localDataSource.getAllNews().map {
                     DataMapper.mapEntitiesToDomain(it)
                 }
@@ -42,16 +42,16 @@ class NewsRepository private constructor(
             override fun shouldFetch(data: List<News>?): Boolean =
                 data == null || data.isEmpty()
 
-            override fun createCall(): LiveData<ApiResponse<List<NewsResponse>>> =
+            override suspend fun createCall(): Flow<ApiResponse<List<NewsResponse>>> =
                 remoteDataSource.getAllNews()
 
-            override fun saveCallResult(data: List<NewsResponse>) {
+            override suspend fun saveCallResult(data: List<NewsResponse>) {
                 val newsList = DataMapper.mapResponsesToEntities(data)
                 localDataSource.insertNews(newsList)
             }
-        }.asLiveData()
+        }.asFlow()
 
-    override fun getFavoriteNews(): LiveData<List<News>> {
+    override fun getFavoriteNews(): Flow<List<News>> {
         return localDataSource.getFavoriteNews().map {
             DataMapper.mapEntitiesToDomain(it)
         }

@@ -64,10 +64,18 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     // glide
     implementation(libs.bumptech.glide)
 
     // circle image view
     implementation(libs.circleimageview)
+
+    // lifecycle
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 }

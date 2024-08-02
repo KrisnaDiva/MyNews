@@ -7,7 +7,6 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,7 +16,6 @@ import com.krisna.diva.mynews.R
 import com.krisna.diva.mynews.core.domain.model.News
 import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityDetailNewsBinding
-import com.krisna.diva.mynews.favorite.FavoriteActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 

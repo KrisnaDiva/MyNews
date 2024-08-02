@@ -1,15 +1,13 @@
 package com.krisna.diva.mynews.core.data.source.remote
 
 import android.util.Log
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.krisna.diva.mynews.core.data.source.remote.network.ApiResponse
 import com.krisna.diva.mynews.core.data.source.remote.network.ApiService
-import com.krisna.diva.mynews.core.data.source.remote.response.ListNewsResponse
 import com.krisna.diva.mynews.core.data.source.remote.response.NewsResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 // Kelas ini bertanggung jawab untuk mengambil data dari API remote.
 class RemoteDataSource private constructor(private val apiService: ApiService) {
@@ -23,30 +21,22 @@ class RemoteDataSource private constructor(private val apiService: ApiService) {
             }
     }
 
-    fun getAllNews(): LiveData<ApiResponse<List<NewsResponse>>> {
-        val resultData = MutableLiveData<ApiResponse<List<NewsResponse>>>()
-
-        //get data from remote api
-        val client = apiService.getList()
-        client.enqueue(object : Callback<ListNewsResponse> {
-            override fun onResponse(
-                call: Call<ListNewsResponse>,
-                response: Response<ListNewsResponse>
-            ) {
-                val dataArray = response.body()?.articles
-                resultData.value = if (dataArray != null) {
-                    ApiResponse.Success(dataArray.filterNotNull())
-                } else {
-                    ApiResponse.Empty
+    suspend fun getAllNews(): Flow<ApiResponse<List<NewsResponse>>> {
+        return flow {
+            try {
+                val response = apiService.getList()
+                val dataArray = response.articles?.filterNotNull()
+                if (dataArray != null) {
+                    if (dataArray.isNotEmpty()) {
+                        emit(ApiResponse.Success(dataArray))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
                 }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", e.toString())
             }
-
-            override fun onFailure(call: Call<ListNewsResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-        })
-
-        return resultData
+        }.flowOn(Dispatchers.IO)
     }
 }

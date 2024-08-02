@@ -10,6 +10,6 @@ interface INewsRepository {
 
 //    fun getFavoriteNews(): LiveData<List<News>>
 //
-//    fun setFavoriteNews(news: News, state: Boolean)
+    fun setFavoriteNews(news: News, state: Boolean)
 
 }

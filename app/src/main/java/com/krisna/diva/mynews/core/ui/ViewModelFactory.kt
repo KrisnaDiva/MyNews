@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.krisna.diva.mynews.core.di.Injection
 import com.krisna.diva.mynews.core.domain.usecase.NewsUseCase
+import com.krisna.diva.mynews.detail.DetailNewsViewModel
 import com.krisna.diva.mynews.home.HomeViewModel
 
 class ViewModelFactory private constructor(private val newsUseCase: NewsUseCase) : ViewModelProvider.NewInstanceFactory() {
@@ -28,9 +29,9 @@ class ViewModelFactory private constructor(private val newsUseCase: NewsUseCase)
 //            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
 //                FavoriteViewModel(newsUseCase) as T
 //            }
-//            modelClass.isAssignableFrom(DetailNewsViewModel::class.java) -> {
-//                DetailNewsViewModel(newsUseCase) as T
-//            }
+            modelClass.isAssignableFrom(DetailNewsViewModel::class.java) -> {
+                DetailNewsViewModel(newsUseCase) as T
+            }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }
 }

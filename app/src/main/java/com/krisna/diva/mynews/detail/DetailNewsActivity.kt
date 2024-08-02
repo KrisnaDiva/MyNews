@@ -8,15 +8,13 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.krisna.diva.mynews.R
 import com.krisna.diva.mynews.core.domain.model.News
+import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityDetailNewsBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -26,7 +24,7 @@ class DetailNewsActivity : AppCompatActivity() {
         const val EXTRA_DATA = "extra_data"
     }
 
-    //    private lateinit var detailNewsViewModel: DetailNewsViewModel
+    private lateinit var detailNewsViewModel: DetailNewsViewModel
     private lateinit var binding: ActivityDetailNewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +37,8 @@ class DetailNewsActivity : AppCompatActivity() {
             finish()
         }
 
-//        val factory = ViewModelFactory.getInstance(this)
-//        detailNewsViewModel = ViewModelProvider(this, factory)[DetailNewsViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(this)
+        detailNewsViewModel = ViewModelProvider(this, factory)[DetailNewsViewModel::class.java]
 
         val detailNews = intent.getParcelableExtra<News>(EXTRA_DATA)
         showDetailNews(detailNews)
@@ -60,23 +58,23 @@ class DetailNewsActivity : AppCompatActivity() {
                 .load(detailNews.urlToImage)
                 .into(binding.ivImage)
 
-//            var statusFavorite = detailNews.isFavorite
-//            setStatusFavorite(statusFavorite)
-//            binding.fab.setOnClickListener {
-//                statusFavorite = !statusFavorite
-//                detailNewsViewModel.setFavoriteNews(detailNews, statusFavorite)
-//                setStatusFavorite(statusFavorite)
-//            }
+            var statusFavorite = detailNews.isFavorite
+            setStatusFavorite(statusFavorite)
+            binding.fabFavorite.setOnClickListener {
+                statusFavorite = !statusFavorite
+                detailNewsViewModel.setFavoriteNews(detailNews, statusFavorite)
+                setStatusFavorite(statusFavorite)
+            }
         }
     }
 
-//    private fun setStatusFavorite(statusFavorite: Boolean) {
-//        if (statusFavorite) {
-//            binding.fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite_white))
-//        } else {
-//            binding.fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_not_favorite_white))
-//        }
-//    }
+    private fun setStatusFavorite(statusFavorite: Boolean) {
+        if (statusFavorite) {
+            binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite))
+        } else {
+            binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite_border))
+        }
+    }
 
     private fun getTruncatedContentWithReadMore(content: String?, url: String?): SpannableString {
         val truncatedContent = content?.substringBefore("…") ?: content

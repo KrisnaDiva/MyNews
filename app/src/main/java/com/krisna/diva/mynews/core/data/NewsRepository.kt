@@ -57,9 +57,9 @@ class NewsRepository private constructor(
 //        }
 //    }
 
-//    override fun setFavoriteNews(news: News, state: Boolean) {
-//        val newsEntity = DataMapper.mapDomainToEntity(news)
-//        appExecutors.diskIO().execute { localDataSource.setFavoriteNews(newsEntity, state) }
-//    }
+    override fun setFavoriteNews(news: News, state: Boolean) {
+        val newsEntity = DataMapper.mapDomainToEntity(news)
+        appExecutors.diskIO().execute { localDataSource.setFavoriteNews(newsEntity, state) }
+    }
 }
 

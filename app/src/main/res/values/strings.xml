@@ -2,4 +2,13 @@
     <string name="app_name">MyNews</string>
     <string name="no_data">No data</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="favorite">Favorite</string>
+    <string name="detail">Detail</string>
+    <string name="home">Home</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="article">Article</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>

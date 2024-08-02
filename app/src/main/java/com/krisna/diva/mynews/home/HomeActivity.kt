@@ -2,6 +2,8 @@ package com.krisna.diva.mynews.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -12,16 +14,17 @@ import com.krisna.diva.mynews.core.ui.NewsAdapter
 import com.krisna.diva.mynews.core.ui.ViewModelFactory
 import com.krisna.diva.mynews.databinding.ActivityHomeBinding
 import com.krisna.diva.mynews.detail.DetailNewsActivity
+import com.krisna.diva.mynews.favorite.FavoriteActivity
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: ActivityHomeBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.topAppBar)
 
         val newsAdapter = NewsAdapter()
         newsAdapter.onItemClick = { selectedData ->
@@ -56,6 +59,22 @@ class HomeActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = newsAdapter
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.home_app_bar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

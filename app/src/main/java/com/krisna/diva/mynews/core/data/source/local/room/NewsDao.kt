@@ -10,9 +10,9 @@ interface NewsDao {
     @Query("SELECT * FROM news")
     fun getAllNews(): LiveData<List<NewsEntity>>
 
-//    @Query("SELECT * FROM news where isFavorite = 1")
-//    fun getFavoriteNews(): LiveData<List<NewsEntity>>
-//
+    @Query("SELECT * FROM news where isFavorite = 1")
+    fun getFavoriteNews(): LiveData<List<NewsEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNews(news: List<NewsEntity>)
 

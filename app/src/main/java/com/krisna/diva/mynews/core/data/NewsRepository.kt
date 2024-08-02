@@ -51,11 +51,11 @@ class NewsRepository private constructor(
             }
         }.asLiveData()
 
-//    override fun getFavoriteNews(): LiveData<List<News>> {
-//        return Transformations.map(localDataSource.getFavoriteNews()) {
-//            DataMapper.mapEntitiesToDomain(it)
-//        }
-//    }
+    override fun getFavoriteNews(): LiveData<List<News>> {
+        return localDataSource.getFavoriteNews().map {
+            DataMapper.mapEntitiesToDomain(it)
+        }
+    }
 
     override fun setFavoriteNews(news: News, state: Boolean) {
         val newsEntity = DataMapper.mapDomainToEntity(news)

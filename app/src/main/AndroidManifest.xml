@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MyNews"
         tools:targetApi="31">
         <activity
+            android:name=".favorite.FavoriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".detail.DetailNewsActivity"
             android:exported="false" />
         <activity

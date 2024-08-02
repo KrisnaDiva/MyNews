@@ -17,7 +17,7 @@ class LocalDataSource private constructor(private val newsDao: NewsDao) {
 
     fun getAllNews(): LiveData<List<NewsEntity>> = newsDao.getAllNews()
 
-//    fun getFavoriteNews(): LiveData<List<NewsEntity>> = newsDao.getFavoriteNews()
+    fun getFavoriteNews(): LiveData<List<NewsEntity>> = newsDao.getFavoriteNews()
 //
     fun insertNews(newsList: List<NewsEntity>) = newsDao.insertNews(newsList)
 

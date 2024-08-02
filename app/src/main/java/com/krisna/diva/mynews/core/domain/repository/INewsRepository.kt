@@ -8,8 +8,8 @@ interface INewsRepository {
 
     fun getAllNews(): LiveData<Resource<List<News>>>
 
-//    fun getFavoriteNews(): LiveData<List<News>>
-//
+    fun getFavoriteNews(): LiveData<List<News>>
+
     fun setFavoriteNews(news: News, state: Boolean)
 
 }

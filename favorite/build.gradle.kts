@@ -1,24 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
-
 android {
-    namespace = "com.krisna.diva.mynews"
+    namespace = "com.krisna.diva.mynews.favorite"
     compileSdk = 34
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 
     defaultConfig {
-        applicationId = "com.krisna.diva.mynews"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,17 +31,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    dynamicFeatures += setOf(":favorite")
 }
 apply(from = "../common.gradle")
 dependencies {
     implementation(project(":core"))
-
-    // circle image view
-    implementation(libs.circleimageview)
-    // Make sure you also include that repository in your project's build.gradle file.
-    implementation("com.google.android.play:feature-delivery:2.1.0")
-
-    // For Kotlin users, also import the Kotlin extensions library for Play Feature Delivery:
-    implementation("com.google.android.play:feature-delivery-ktx:2.1.0")
+    implementation(project(":app"))
 }

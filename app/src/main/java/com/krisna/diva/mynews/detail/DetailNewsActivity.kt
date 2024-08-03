@@ -10,7 +10,6 @@ import android.text.style.ClickableSpan
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.krisna.diva.mynews.R
 import com.krisna.diva.mynews.core.domain.model.News
@@ -20,10 +19,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class DetailNewsActivity : AppCompatActivity() {
-    companion object {
-        const val EXTRA_DATA = "extra_data"
-    }
-
     private val detailNewsViewModel: DetailNewsViewModel by viewModel()
     private lateinit var binding: ActivityDetailNewsBinding
 
@@ -106,5 +101,9 @@ class DetailNewsActivity : AppCompatActivity() {
         val outputFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.getDefault())
         val date = inputFormat.parse(dateString)
         return date?.let { outputFormat.format(it) } ?: dateString
+    }
+
+    companion object {
+        const val EXTRA_DATA = "extra_data"
     }
 }

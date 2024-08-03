@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-//Kelas ini bertanggung jawab untuk mengelola sumber data yang berasal dari database lokal dan remote API. Ini mengabstraksi logika untuk memutuskan kapan harus mengambil data dari jaringan dan kapan harus menggunakan data dari database lokal.
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
     private var result: Flow<Resource<ResultType>> = flow {

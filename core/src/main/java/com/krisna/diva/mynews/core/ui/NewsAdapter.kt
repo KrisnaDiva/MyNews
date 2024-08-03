@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.krisna.diva.mynews.R
+import com.krisna.diva.core.R
+import com.krisna.diva.core.databinding.ItemNewsBinding
 import com.krisna.diva.mynews.core.domain.model.News
-import com.krisna.diva.mynews.databinding.ItemNewsBinding
 import java.util.ArrayList
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ListViewHolder>() {
@@ -27,7 +27,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ListViewHolder>() {
 
     override fun getItemCount() = listData.size
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NewsAdapter.ListViewHolder, position: Int) {
         val data = listData[position]
         holder.bind(data)
     }

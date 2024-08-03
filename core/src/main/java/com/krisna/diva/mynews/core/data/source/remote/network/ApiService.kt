@@ -1,6 +1,6 @@
 package com.krisna.diva.mynews.core.data.source.remote.network
 
-import com.krisna.diva.mynews.BuildConfig
+import com.krisna.diva.core.BuildConfig
 import com.krisna.diva.mynews.core.data.source.remote.response.ListNewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

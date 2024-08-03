@@ -1,9 +1,7 @@
 package com.krisna.diva.mynews.core.di
 
 import androidx.room.Room
-import com.krisna.diva.mynews.BuildConfig
-import com.krisna.diva.mynews.core.data.NewsRepository
-import com.krisna.diva.mynews.core.data.source.local.LocalDataSource
+import com.krisna.diva.core.BuildConfig
 import com.krisna.diva.mynews.core.data.source.local.room.NewsDatabase
 import com.krisna.diva.mynews.core.data.source.remote.RemoteDataSource
 import com.krisna.diva.mynews.core.data.source.remote.network.ApiService
@@ -46,8 +44,8 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single { LocalDataSource(get()) }
+    single { com.krisna.diva.mynews.core.data.source.local.LocalDataSource(get()) }
     single { RemoteDataSource(get()) }
     factory { AppExecutors() }
-    single<INewsRepository> { NewsRepository(get(), get(), get()) }
+    single<INewsRepository> { com.krisna.diva.mynews.core.data.NewsRepository(get(), get(), get()) }
 }

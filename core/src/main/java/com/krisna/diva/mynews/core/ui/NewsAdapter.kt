@@ -23,7 +23,9 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ListViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false))
+        ListViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
+        )
 
     override fun getItemCount() = listData.size
 
@@ -38,6 +40,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ListViewHolder>() {
             with(binding) {
                 Glide.with(itemView.context)
                     .load(data.urlToImage)
+                    .error(R.drawable.no_image)
                     .into(ivNews)
                 tvTitle.text = data.title
                 tvDescription.text = data.description

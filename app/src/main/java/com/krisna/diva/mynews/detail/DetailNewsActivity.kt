@@ -53,6 +53,7 @@ class DetailNewsActivity : AppCompatActivity() {
 
             Glide.with(this@DetailNewsActivity)
                 .load(detailNews.urlToImage)
+                .error(R.drawable.no_image)
                 .into(binding.ivImage)
 
             var statusFavorite = detailNews.isFavorite

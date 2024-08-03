@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.krisna.diva.mynews.core.ui.NewsAdapter
-import com.krisna.diva.mynews.databinding.ActivityFavoriteBinding
 import com.krisna.diva.mynews.detail.DetailNewsActivity
+import com.krisna.diva.mynews.favorite.databinding.ActivityFavoriteBinding
+import com.krisna.diva.mynews.favorite.di.favoriteModule
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
+
 
 class FavoriteActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModel()
@@ -19,7 +21,7 @@ class FavoriteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        loadKoinModules(favoriteModule)
         setSupportActionBar(binding.topAppBar)
         binding.topAppBar.setNavigationOnClickListener {
             finish()

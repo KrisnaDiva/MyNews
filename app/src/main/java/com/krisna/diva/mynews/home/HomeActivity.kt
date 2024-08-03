@@ -1,6 +1,7 @@
 package com.krisna.diva.mynews.home
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
@@ -55,7 +57,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
         with(binding.rvNews) {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(this@HomeActivity, 2)
+            } else {
+                LinearLayoutManager(this@HomeActivity)
+            }
             setHasFixedSize(true)
             adapter = newsAdapter
         }

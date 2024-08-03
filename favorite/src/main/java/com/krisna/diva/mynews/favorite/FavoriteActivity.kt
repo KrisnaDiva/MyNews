@@ -1,9 +1,11 @@
 package com.krisna.diva.mynews.favorite
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.krisna.diva.mynews.core.ui.NewsAdapter
 import com.krisna.diva.mynews.detail.DetailNewsActivity
@@ -41,7 +43,11 @@ class FavoriteActivity : AppCompatActivity() {
         }
 
         with(binding.rvNews) {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(this@FavoriteActivity, 2)
+            } else {
+                LinearLayoutManager(this@FavoriteActivity)
+            }
             setHasFixedSize(true)
             adapter = newsAdapter
         }

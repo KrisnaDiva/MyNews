@@ -11,41 +11,40 @@ import com.krisna.diva.mynews.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class NewsRepository (
-    private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource,
-    private val appExecutors: AppExecutors
+class NewsRepository(
+    private val remoteSource: RemoteDataSource,
+    private val localSource: LocalDataSource,
+    private val executors: AppExecutors
 ) : INewsRepository {
 
     override fun getAllNews(): Flow<Resource<List<News>>> =
         object : NetworkBoundResource<List<News>, List<NewsResponse>>() {
-            override fun loadFromDB(): Flow<List<News>> {
-                return localDataSource.getAllNews().map {
+            override fun fetchFromDB(): Flow<List<News>> {
+                return localSource.getAllNews().map {
                     DataMapper.mapEntitiesToDomain(it)
                 }
             }
 
-            override fun shouldFetch(data: List<News>?): Boolean =
-                data == null || data.isEmpty()
+            override fun shouldFetchFromNetwork(data: List<News>?): Boolean =
+                data.isNullOrEmpty()
 
-            override suspend fun createCall(): Flow<ApiResponse<List<NewsResponse>>> =
-                remoteDataSource.getAllNews()
+            override suspend fun makeApiCall(): Flow<ApiResponse<List<NewsResponse>>> =
+                remoteSource.getAllNews()
 
-            override suspend fun saveCallResult(data: List<NewsResponse>) {
-                val newsList = DataMapper.mapResponsesToEntities(data)
-                localDataSource.insertNews(newsList)
+            override suspend fun saveApiResult(data: List<NewsResponse>) {
+                val newsEntities = DataMapper.mapResponsesToEntities(data)
+                localSource.insertNews(newsEntities)
             }
         }.asFlow()
 
     override fun getFavoriteNews(): Flow<List<News>> {
-        return localDataSource.getFavoriteNews().map {
+        return localSource.getFavoriteNews().map {
             DataMapper.mapEntitiesToDomain(it)
         }
     }
 
     override fun setFavoriteNews(news: News, state: Boolean) {
         val newsEntity = DataMapper.mapDomainToEntity(news)
-        appExecutors.diskIO().execute { localDataSource.setFavoriteNews(newsEntity, state) }
+        executors.diskIO().execute { localSource.setFavoriteNews(newsEntity, state) }
     }
 }
-

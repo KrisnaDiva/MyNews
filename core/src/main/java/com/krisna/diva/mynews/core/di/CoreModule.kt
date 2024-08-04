@@ -2,6 +2,8 @@ package com.krisna.diva.mynews.core.di
 
 import androidx.room.Room
 import com.krisna.diva.core.BuildConfig
+import com.krisna.diva.mynews.core.data.NewsRepository
+import com.krisna.diva.mynews.core.data.source.local.LocalDataSource
 import com.krisna.diva.mynews.core.data.source.local.room.NewsDatabase
 import com.krisna.diva.mynews.core.data.source.remote.RemoteDataSource
 import com.krisna.diva.mynews.core.data.source.remote.network.ApiService
@@ -28,24 +30,26 @@ val databaseModule = module {
 val networkModule = module {
     single {
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+            })
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
     }
     single {
-        val retrofit = Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(get())
+            .client(get<OkHttpClient>())
             .build()
-        retrofit.create(ApiService::class.java)
+            .create(ApiService::class.java)
     }
 }
 
 val repositoryModule = module {
-    single { com.krisna.diva.mynews.core.data.source.local.LocalDataSource(get()) }
+    single { LocalDataSource(get()) }
     single { RemoteDataSource(get()) }
     factory { AppExecutors() }
-    single<INewsRepository> { com.krisna.diva.mynews.core.data.NewsRepository(get(), get(), get()) }
+    single<INewsRepository> { NewsRepository(get(), get(), get()) }
 }

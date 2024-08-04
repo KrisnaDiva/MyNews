@@ -3,46 +3,47 @@ package com.krisna.diva.mynews.core.data
 import com.krisna.diva.mynews.core.data.source.remote.network.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
-    private var result: Flow<Resource<ResultType>> = flow {
+    private val resultFlow: Flow<Resource<ResultType>> = flow {
         emit(Resource.Loading())
-        val dbSource = loadFromDB().first()
-        if (shouldFetch(dbSource)) {
+        val localData = fetchFromDB().firstOrNull()
+        if (shouldFetchFromNetwork(localData)) {
             emit(Resource.Loading())
-            when (val apiResponse = createCall().first()) {
+            when (val response = makeApiCall().firstOrNull()) {
                 is ApiResponse.Success -> {
-                    saveCallResult(apiResponse.data)
-                    emitAll(loadFromDB().map { Resource.Success(it) })
+                    saveApiResult(response.data)
+                    emitAll(fetchFromDB().map { Resource.Success(it) })
                 }
-
                 is ApiResponse.Empty -> {
-                    emitAll(loadFromDB().map { Resource.Success(it) })
+                    emitAll(fetchFromDB().map { Resource.Success(it) })
                 }
-
                 is ApiResponse.Error -> {
-                    onFetchFailed()
-                    emit(Resource.Error(apiResponse.errorMessage))
+                    handleFetchFailure()
+                    emit(Resource.Error(response.errorMessage))
+                }
+                null -> {
+                    emit(Resource.Error("Unknown error"))
                 }
             }
         } else {
-            emitAll(loadFromDB().map { Resource.Success(it) })
+            emitAll(fetchFromDB().map { Resource.Success(it) })
         }
     }
 
-    protected open fun onFetchFailed() {}
+    protected open fun handleFetchFailure() {}
 
-    protected abstract fun loadFromDB(): Flow<ResultType>
+    protected abstract fun fetchFromDB(): Flow<ResultType>
 
-    protected abstract fun shouldFetch(data: ResultType?): Boolean
+    protected abstract fun shouldFetchFromNetwork(data: ResultType?): Boolean
 
-    protected abstract suspend fun createCall(): Flow<ApiResponse<RequestType>>
+    protected abstract suspend fun makeApiCall(): Flow<ApiResponse<RequestType>>
 
-    protected abstract suspend fun saveCallResult(data: RequestType)
+    protected abstract suspend fun saveApiResult(data: RequestType)
 
-    fun asFlow(): Flow<Resource<ResultType>> = result
+    fun asFlow(): Flow<Resource<ResultType>> = resultFlow
 }

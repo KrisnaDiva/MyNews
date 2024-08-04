@@ -21,6 +21,7 @@ import com.krisna.diva.mynews.detail.DetailNewsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
+
     private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var binding: ActivityHomeBinding
 
@@ -30,52 +31,78 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.topAppBar)
 
-        val newsAdapter = NewsAdapter()
-        newsAdapter.onItemClick = { selectedData ->
-            val intent = Intent(this, DetailNewsActivity::class.java)
-            intent.putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
-            startActivity(intent)
-        }
+        setupRecyclerView()
+        observeViewModel()
+    }
 
-        homeViewModel.news.observe(this) { news ->
-            if (news != null) {
-                when (news) {
-                    is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is Resource.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        newsAdapter.setData(news.data)
-                    }
-
-                    is Resource.Error -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.viewError.root.visibility = View.VISIBLE
-                        binding.viewError.tvError.text =
-                            news.message ?: getString(R.string.something_wrong)
-                    }
+    private fun setupRecyclerView() {
+        val newsAdapter = NewsAdapter().apply {
+            onItemClickListener = { selectedData ->
+                val intent = Intent(this@HomeActivity, DetailNewsActivity::class.java).apply {
+                    putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
                 }
+                startActivity(intent)
             }
         }
 
         with(binding.rvNews) {
-            layoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                GridLayoutManager(this@HomeActivity, 2)
-            } else {
-                LinearLayoutManager(this@HomeActivity)
-            }
+            layoutManager =
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    GridLayoutManager(this@HomeActivity, 2)
+                } else {
+                    LinearLayoutManager(this@HomeActivity)
+                }
             setHasFixedSize(true)
             adapter = newsAdapter
+        }
+    }
+
+    private fun observeViewModel() {
+        homeViewModel.news.observe(this) { news ->
+            when (news) {
+                is Resource.Loading -> showLoading()
+                is Resource.Success -> {
+                    hideLoading()
+                    (binding.rvNews.adapter as NewsAdapter).setData(news.data)
+                }
+
+                is Resource.Error -> {
+                    hideLoading()
+                    showError()
+                }
+            }
+        }
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.viewError.root.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun showError() {
+        binding.viewError.root.visibility = View.VISIBLE
+        binding.viewError.tvError.text = getString(R.string.something_wrong)
+        binding.viewError.btnRetry.setOnClickListener {
+            binding.viewError.root.visibility = View.GONE
+            homeViewModel.refreshNews()
         }
     }
 
     private fun installFavoriteModule() {
         val splitInstallManager = SplitInstallManagerFactory.create(this)
         val moduleFavorite = "favorite"
+
         if (splitInstallManager.installedModules.contains(moduleFavorite)) {
             moveToFavoriteActivity()
         } else {
             val request = SplitInstallRequest.newBuilder()
                 .addModule(moduleFavorite)
                 .build()
+
             splitInstallManager.startInstall(request)
                 .addOnSuccessListener {
                     Toast.makeText(

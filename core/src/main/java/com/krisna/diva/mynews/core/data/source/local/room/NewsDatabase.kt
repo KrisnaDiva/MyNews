@@ -8,5 +8,4 @@ import com.krisna.diva.mynews.core.data.source.local.entity.NewsEntity
 abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao
-
 }

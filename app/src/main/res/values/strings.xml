@@ -15,4 +15,5 @@
     <string name="module_not_found">Module not found</string>
     <string name="success_installing_module">Success installing module</string>
     <string name="error_installing_module">Error installing module</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -14,8 +14,8 @@ import com.krisna.diva.mynews.favorite.di.favoriteModule
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
-
 class FavoriteActivity : AppCompatActivity() {
+
     private val favoriteViewModel: FavoriteViewModel by viewModel()
     private lateinit var binding: ActivityFavoriteBinding
 
@@ -24,22 +24,27 @@ class FavoriteActivity : AppCompatActivity() {
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loadKoinModules(favoriteModule)
+
+        setupActionBar()
+        setupRecyclerView()
+        observeViewModel()
+    }
+
+    private fun setupActionBar() {
         setSupportActionBar(binding.topAppBar)
         binding.topAppBar.setNavigationOnClickListener {
             finish()
         }
+    }
 
-        val newsAdapter = NewsAdapter()
-        newsAdapter.onItemClick = { selectedData ->
-            val intent = Intent(this, DetailNewsActivity::class.java)
-            intent.putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
-            startActivity(intent)
-        }
-
-        favoriteViewModel.favoriteNews.observe(this) { dataNews ->
-            newsAdapter.setData(dataNews)
-            binding.viewEmpty.root.visibility =
-                if (dataNews.isNotEmpty()) View.GONE else View.VISIBLE
+    private fun setupRecyclerView() {
+        val newsAdapter = NewsAdapter().apply {
+            onItemClickListener = { selectedData ->
+                val intent = Intent(this@FavoriteActivity, DetailNewsActivity::class.java).apply {
+                    putExtra(DetailNewsActivity.EXTRA_DATA, selectedData)
+                }
+                startActivity(intent)
+            }
         }
 
         with(binding.rvNews) {
@@ -50,6 +55,13 @@ class FavoriteActivity : AppCompatActivity() {
             }
             setHasFixedSize(true)
             adapter = newsAdapter
+        }
+    }
+
+    private fun observeViewModel() {
+        favoriteViewModel.favoriteNews.observe(this) { dataNews ->
+            (binding.rvNews.adapter as NewsAdapter).setData(dataNews)
+            binding.viewEmpty.root.visibility = if (dataNews.isNotEmpty()) View.GONE else View.VISIBLE
         }
     }
 }

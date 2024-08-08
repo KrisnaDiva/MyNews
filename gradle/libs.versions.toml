@@ -29,6 +29,10 @@ lifecycle = "2.8.4"
 koin = "3.2.0"
 #dynamic feature
 playFeatureDelivery = "2.1.0"
+# sqlcipher
+zeteticSqlcipher = "4.4.0"
+# sqlite-ktx
+sqliteKtx = "2.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,7 +66,10 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 #dynamic feature
 google-play-feature-delivery = { group = "com.google.android.play", name = "feature-delivery", version.ref = "playFeatureDelivery" }
 google-play-feature-delivery-ktx = { group = "com.google.android.play", name = "feature-delivery-ktx", version.ref = "playFeatureDelivery" }
-
+# sqlcipher
+zetetic-android-database-sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "zeteticSqlcipher" }
+# sqlite-ktx
+androidx-sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqliteKtx" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

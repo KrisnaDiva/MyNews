@@ -57,4 +57,9 @@ dependencies {
 
     // lifecycle
     api(libs.androidx.lifecycle.livedata.ktx)
+
+    // SQLCipher and SQLite KTX
+    implementation(libs.zetetic.android.database.sqlcipher)
+    implementation(libs.androidx.sqlite.ktx)
+
 }

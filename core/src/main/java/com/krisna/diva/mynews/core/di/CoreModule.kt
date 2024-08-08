@@ -11,6 +11,7 @@ import com.krisna.diva.mynews.core.domain.repository.INewsRepository
 import com.krisna.diva.mynews.core.utils.AppExecutors
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -33,11 +34,17 @@ val databaseModule = module {
 
 val networkModule = module {
     single {
+        val hostname = "newsapi.org"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname, "sha256/WbJ0rqhZTn/oss8Ki+pfzpfZuSAwuh/o5E/kj4qjwSE=")
+            .add(hostname, "sha256/UHYOXs5BxRVKGG7ykhBYGxgne9rRrDaUTXC1MpEtwZU=")
+            .build()
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             })
             .connectTimeout(30, TimeUnit.SECONDS)
+            .certificatePinner(certificatePinner)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
     }

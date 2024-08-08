@@ -1,12 +1,18 @@
 package com.krisna.diva.mynews.core.ui
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.krisna.diva.core.R
 import com.krisna.diva.core.databinding.ItemNewsBinding
 import com.krisna.diva.mynews.core.domain.model.News
@@ -42,8 +48,34 @@ class NewsAdapter : ListAdapter<News, NewsAdapter.NewsViewHolder>(DIFF_CALLBACK)
             with(binding) {
                 Glide.with(itemView.context)
                     .load(news.urlToImage)
-                    .error(R.drawable.no_image)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            lottieAnimationView.visibility = View.VISIBLE
+                            lottieAnimationView.playAnimation()
+                            ivNews.visibility = View.GONE
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            model: Any,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            lottieAnimationView.visibility = View.GONE
+                            lottieAnimationView.pauseAnimation()
+                            ivNews.visibility = View.VISIBLE
+                            return false
+                        }
+                    })
                     .into(ivNews)
+
                 tvTitle.text = news.title
                 tvDescription.text = news.description
             }

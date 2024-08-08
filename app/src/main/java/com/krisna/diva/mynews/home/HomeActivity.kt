@@ -85,7 +85,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showError() {
         binding.viewError.root.visibility = View.VISIBLE
-        binding.viewError.tvError.text = getString(R.string.something_wrong)
         binding.viewError.btnRetry.setOnClickListener {
             binding.viewError.root.visibility = View.GONE
             homeViewModel.refreshNews()

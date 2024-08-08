@@ -35,6 +35,9 @@ zeteticSqlcipher = "4.4.0"
 sqliteKtx = "2.4.0"
 #leakcanary
 leakcanary = "2.10"
+#lottie
+lottie = "3.4.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -74,6 +77,8 @@ zetetic-android-database-sqlcipher = { group = "net.zetetic", name = "android-da
 androidx-sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqliteKtx" }
 #leakcanary
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
+#lottie
+airbnb-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

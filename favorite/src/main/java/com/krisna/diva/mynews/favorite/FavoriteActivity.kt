@@ -60,7 +60,7 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         favoriteViewModel.favoriteNews.observe(this) { dataNews ->
-            (binding.rvNews.adapter as NewsAdapter).setData(dataNews)
+            (binding.rvNews.adapter as NewsAdapter).submitList(dataNews)
             binding.viewEmpty.root.visibility = if (dataNews.isNotEmpty()) View.GONE else View.VISIBLE
         }
     }

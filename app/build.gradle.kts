@@ -50,4 +50,7 @@ dependencies {
     // dynamic feature
     implementation(libs.google.play.feature.delivery)
     implementation(libs.google.play.feature.delivery.ktx)
+
+    // leak canary
+    debugImplementation(libs.leakcanary.android)
 }

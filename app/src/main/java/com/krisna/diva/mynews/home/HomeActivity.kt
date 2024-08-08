@@ -63,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
                 is Resource.Loading -> showLoading()
                 is Resource.Success -> {
                     hideLoading()
-                    (binding.rvNews.adapter as NewsAdapter).setData(news.data)
+                    (binding.rvNews.adapter as NewsAdapter).submitList(news.data)
                 }
 
                 is Resource.Error -> {

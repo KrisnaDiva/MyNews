@@ -1,13 +1,7 @@
 package com.krisna.diva.mynews.detail
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -17,8 +11,6 @@ import com.krisna.diva.mynews.core.utils.DateUtils
 import com.krisna.diva.mynews.core.utils.StringUtils
 import com.krisna.diva.mynews.databinding.ActivityDetailNewsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class DetailNewsActivity : AppCompatActivity() {
 

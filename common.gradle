@@ -17,4 +17,7 @@ dependencies {
 
     // lottie
     implementation(libs.airbnb.lottie)
+
+    // desugaring
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }

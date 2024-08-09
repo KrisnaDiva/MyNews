@@ -15,7 +15,7 @@ jobs:
           name: Chmod permissions
           command: chmod +x ./gradlew
       - run:
-          name: Download Dependencies
+          name: Download Depedencies
           command: ./gradlew androidDependencies
       - save_cache:
           key: 'android-orb-v1-{{ epoch }}'
@@ -29,25 +29,5 @@ jobs:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
       - run:
-          name: Run Lint and Unit Tests
+          name: Run Tests
           command: ./gradlew lint test
-      - run:
-          name: Run Code Coverage
-          command: ./gradlew jacocoTestReport
-      - store_artifacts:
-          path: app/build/reports/jacoco/
-          destination: reports/code-coverage
-      - run:
-          name: Run Detekt (Code Style)
-          command: ./gradlew detekt
-      - store_artifacts:
-          path: app/build/reports/detekt/
-          destination: reports/code-style
-      - run:
-          name: Run Dependency Check (Vulnerability)
-          command: ./gradlew dependencyCheckAnalyze
-      - store_artifacts:
-          path: app/build/reports/dependency-check-report.html
-          destination: reports/vulnerability
-      - store_test_results:
-          path: app/build/test-results

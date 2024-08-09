@@ -14,10 +14,11 @@ android {
         buildConfig = true
     }
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
         buildConfigField("String", "BASE_URL", "\"https://newsapi.org/\"")
         buildConfigField("String", "API_KEY", "\"37b70e0d9d2c4e71b9afe60b080d7071\"")
     }

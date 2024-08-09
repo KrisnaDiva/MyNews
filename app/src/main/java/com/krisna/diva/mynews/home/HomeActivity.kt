@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -67,6 +68,7 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 is Resource.Error -> {
+                    Log.e("HomeActivity", "Error: ${news.message}")
                     hideLoading()
                     showError()
                 }

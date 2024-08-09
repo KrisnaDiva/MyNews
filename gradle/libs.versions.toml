@@ -38,7 +38,7 @@ leakcanary = "2.10"
 #lottie
 lottie = "3.4.1"
 #desugar
-desugar-jdk-libs = "1.1.5"
+desugar-jdk-libs = "2.0.4"
 
 
 [libraries]

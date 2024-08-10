@@ -3,11 +3,14 @@ version: 2.1
 orbs:
   android: circleci/android@2.4.0
 
-jobs:
-  build:
-    executor: android/android
+executors:
+  android-executor:
     docker:
       - image: cimg/android:2023.08
+
+jobs:
+  build:
+    executor: android-executor
     steps:
       - checkout
       - restore_cache:
@@ -16,7 +19,7 @@ jobs:
           name: Chmod permissions
           command: chmod +x ./gradlew
       - run:
-          name: Download Depedencies
+          name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           key: 'android-orb-v1-{{ epoch }}'

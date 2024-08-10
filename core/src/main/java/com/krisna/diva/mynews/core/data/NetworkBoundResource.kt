@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
+@Suppress("EmptyMethod")
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
     private val resultFlow: Flow<Resource<ResultType>> = flow {
